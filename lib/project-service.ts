@@ -1,3 +1,4 @@
+import { supabase } from "@/lib/supabase"
 import type { Message } from "@/app/dashboard/studio/page"
 
 export type ProjectPhase = "genesis" | "implementation" | "perfection"
@@ -21,68 +22,97 @@ export interface Project {
   agentIds: string[]
 }
 
-// In-memory store for demo purposes
-// In a real app, this would be a database
-const projects: Project[] = [
-  {
-    id: "proj-001",
-    name: "E-commerce Dashboard",
-    description: "A modern dashboard for managing online store inventory and sales.",
-    status: "completed",
-    currentPhase: "perfection",
-    messages: [],
-    files: [],
-    createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-    updatedAt: new Date(Date.now() - 86400000).toISOString(),
-    agentIds: ["agent-001", "agent-002"],
-  },
-]
+export async function getAllProjects(): Promise<Project[]> {
+  const { data, error } = await supabase.from("projects").select("*").order("updated_at", { ascending: false })
 
-export function getAllProjects(): Project[] {
-  return projects
+  if (error) {
+    console.error("Error fetching projects:", error)
+    return []
+  }
+
+  return data.map(mapDatabaseProjectToProject)
 }
 
-export function getProjectById(id: string): Project | undefined {
-  return projects.find((p) => p.id === id)
+export async function getProjectById(id: string): Promise<Project | undefined> {
+  const { data, error } = await supabase.from("projects").select("*").eq("id", id).single()
+
+  if (error || !data) {
+    return undefined
+  }
+
+  return mapDatabaseProjectToProject(data)
 }
 
-export function createProject(name: string, description: string, agentIds: string[]): Project {
-  const newProject: Project = {
-    id: `proj-${Date.now()}`,
+export async function createProject(name: string, description: string, agentIds: string[]): Promise<Project> {
+  const newProject = {
     name,
     description,
     status: "active",
-    currentPhase: "genesis",
+    current_phase: "genesis",
     messages: [],
     files: [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    agentIds,
+    agent_ids: agentIds,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   }
-  projects.push(newProject)
-  return newProject
+
+  const { data, error } = await supabase.from("projects").insert(newProject).select().single()
+
+  if (error) {
+    throw new Error(`Error creating project: ${error.message}`)
+  }
+
+  return mapDatabaseProjectToProject(data)
 }
 
-export function updateProject(id: string, updates: Partial<Project>): Project | undefined {
-  const index = projects.findIndex((p) => p.id === id)
-  if (index === -1) return undefined
+export async function updateProject(id: string, updates: Partial<Project>): Promise<Project | undefined> {
+  const dbUpdates: any = {}
+  if (updates.name) dbUpdates.name = updates.name
+  if (updates.description) dbUpdates.description = updates.description
+  if (updates.status) dbUpdates.status = updates.status
+  if (updates.currentPhase) dbUpdates.current_phase = updates.currentPhase
+  if (updates.messages) dbUpdates.messages = updates.messages
+  if (updates.files) dbUpdates.files = updates.files
 
-  projects[index] = { ...projects[index], ...updates, updatedAt: new Date().toISOString() }
-  return projects[index]
+  dbUpdates.updated_at = new Date().toISOString()
+
+  const { data, error } = await supabase.from("projects").update(dbUpdates).eq("id", id).select().single()
+
+  if (error) {
+    console.error("Error updating project:", error)
+    return undefined
+  }
+
+  return mapDatabaseProjectToProject(data)
 }
 
-export function addProjectMessage(projectId: string, message: Message): Project | undefined {
-  const project = getProjectById(projectId)
+export async function addProjectMessage(projectId: string, message: Message): Promise<Project | undefined> {
+  const project = await getProjectById(projectId)
   if (!project) return undefined
 
   const updatedMessages = [...project.messages, message]
   return updateProject(projectId, { messages: updatedMessages })
 }
 
-export function addProjectFile(projectId: string, file: ProjectFile): Project | undefined {
-  const project = getProjectById(projectId)
+export async function addProjectFile(projectId: string, file: ProjectFile): Promise<Project | undefined> {
+  const project = await getProjectById(projectId)
   if (!project) return undefined
 
   const updatedFiles = [...project.files, file]
   return updateProject(projectId, { files: updatedFiles })
+}
+
+function mapDatabaseProjectToProject(dbProject: any): Project {
+  return {
+    id: dbProject.id,
+    name: dbProject.name,
+    description: dbProject.description,
+    status: dbProject.status,
+    currentPhase: dbProject.current_phase,
+    messages: dbProject.messages || [],
+    files: dbProject.files || [],
+    createdAt: dbProject.created_at,
+    updatedAt: dbProject.updated_at,
+    agentIds: dbProject.agent_ids || [],
+  }
 }
