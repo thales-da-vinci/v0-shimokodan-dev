@@ -30,13 +30,13 @@ export function SiteHeader() {
 
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           <button onClick={() => handleScrollTo("features")} className="transition-colors hover:text-primary">
-            Capabilities
+            Capacidades
           </button>
           <button onClick={() => handleScrollTo("pricing")} className="transition-colors hover:text-primary">
-            Pricing
+            Planos
           </button>
           <Link href="/dashboard" className="transition-colors hover:text-primary">
-            Dashboard
+            Painel
           </Link>
         </nav>
 
@@ -52,20 +52,20 @@ export function SiteHeader() {
                 onClick={() => handleScrollTo("features")}
                 className="text-left py-2 text-lg transition-colors hover:text-primary"
               >
-                Capabilities
+                Capacidades
               </button>
               <button
                 onClick={() => handleScrollTo("pricing")}
                 className="text-left py-2 text-lg transition-colors hover:text-primary"
               >
-                Pricing
+                Planos
               </button>
               <Link
                 href="/dashboard"
                 className="text-left py-2 text-lg transition-colors hover:text-primary"
                 onClick={() => setIsOpen(false)}
               >
-                Dashboard
+                Painel
               </Link>
             </nav>
           </SheetContent>
@@ -74,7 +74,7 @@ export function SiteHeader() {
         <div className="hidden md:flex items-center gap-4">
           <Link href="/dashboard">
             <Button variant="default" className="bg-primary text-primary-foreground hover:bg-primary/90">
-              Summon Agent
+              Invocar Agente
             </Button>
           </Link>
         </div>

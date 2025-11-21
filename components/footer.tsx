@@ -11,8 +11,8 @@ export function Footer() {
           <span className="text-lg font-bold tracking-tight">Shimokodan Dev</span>
         </div>
         <div className="text-sm text-muted-foreground text-center md:text-right">
-          <p>&copy; 2025 HNK Labs. All rights reserved.</p>
-          <p className="mt-2">Built with Love & Truth.</p>
+          <p>&copy; 2025 HNK Labs. Todos os direitos reservados.</p>
+          <p className="mt-2">Construído com Amor & Verdade.</p>
         </div>
       </div>
     </footer>

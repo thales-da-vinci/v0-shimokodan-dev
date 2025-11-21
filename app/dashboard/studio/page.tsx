@@ -120,7 +120,6 @@ export default function StudioPage() {
     setIsProcessing(true)
 
     try {
-      // Call the AI Studio API
       const response = await fetch("/api/studio/execute", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -132,7 +131,9 @@ export default function StudioPage() {
         }),
       })
 
-      if (!response.ok) throw new Error("Failed to process request")
+      if (!response.ok) {
+        throw new Error(`Erro ${response.status}: ${response.statusText}`)
+      }
 
       const data = await response.json()
 
@@ -157,13 +158,17 @@ export default function StudioPage() {
       setMessages((prev) => [...prev, assistantMessage])
 
       toast({
-        title: "Task Completed",
-        description: `${data.agentName} has completed your request`,
+        title: "Tarefa Concluída",
+        description: `${data.agentName} completou sua requisição`,
       })
     } catch (error) {
+      console.error("[v0] AI Studio Error:", error)
       toast({
-        title: "Error",
-        description: "Failed to process your request. Please try again.",
+        title: "Erro de Conexão",
+        description:
+          error instanceof Error
+            ? `Falha ao processar: ${error.message}. Verifique suas chaves de API nas variáveis de ambiente.`
+            : "Erro na conexão com o Núcleo Metatron. Verifique suas configurações.",
         variant: "destructive",
       })
     } finally {
@@ -180,7 +185,7 @@ export default function StudioPage() {
               <Sparkles className="h-8 w-8 text-primary" />
               AI Studio
             </h1>
-            <p className="text-muted-foreground mt-1">Build with GIP Method: Genesis • Implementation • Perfection</p>
+            <p className="text-muted-foreground mt-1">Construa com o Método GIP: Gênesis • Implementação • Perfeição</p>
           </div>
           <div className="flex items-center gap-2">
             <Badge
@@ -193,11 +198,16 @@ export default function StudioPage() {
                     : "border-emerald-500 text-emerald-500"
               }`}
             >
-              {currentPhase} Phase
+              Fase{" "}
+              {currentPhase === "genesis"
+                ? "Gênesis"
+                : currentPhase === "implementation"
+                  ? "Implementação"
+                  : "Perfeição"}
             </Badge>
             {projectId && (
               <Badge variant="secondary" className="h-8 px-3 text-sm">
-                Project Active
+                Projeto Ativo
               </Badge>
             )}
           </div>
@@ -207,7 +217,7 @@ export default function StudioPage() {
           {/* Agent Selection Sidebar */}
           <Card className="lg:col-span-1 border-primary/20">
             <CardHeader>
-              <CardTitle className="text-lg">Select Agents</CardTitle>
+              <CardTitle className="text-lg">Selecionar Agentes</CardTitle>
             </CardHeader>
             <CardContent>
               <ScrollArea className="h-[calc(100vh-20rem)]">
@@ -355,7 +365,7 @@ export default function StudioPage() {
                   <Textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Describe what you want to build... (e.g., 'Create a todo app with Next.js and Tailwind')"
+                    placeholder="Descreva o que você quer construir... (ex: 'Criar um app de tarefas com Next.js e Tailwind')"
                     className="min-h-[60px] max-h-[120px] resize-none"
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
@@ -369,8 +379,8 @@ export default function StudioPage() {
                   </Button>
                 </form>
                 <p className="text-xs text-muted-foreground mt-2">
-                  {selectedAgents.length} agent{selectedAgents.length !== 1 ? "s" : ""} selected • Press Enter to send,
-                  Shift+Enter for new line
+                  {selectedAgents.length} agente{selectedAgents.length !== 1 ? "s" : ""} selecionado
+                  {selectedAgents.length !== 1 ? "s" : ""} • Pressione Enter para enviar, Shift+Enter para nova linha
                 </p>
               </div>
             </CardContent>

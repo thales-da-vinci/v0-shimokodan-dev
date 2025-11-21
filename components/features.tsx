@@ -5,10 +5,10 @@ export function Features() {
     <section id="features" className="py-20 bg-secondary/10">
       <div className="container">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">Evolutionary Intelligence</h2>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">Inteligência Evolutiva</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Shimokodan agents aren't static. They gain experience, unlock new skills, and adapt to your specific
-            business needs over time.
+            Agentes Shimokodan não são estáticos. Eles ganham experiência, desbloqueiam novas habilidades e se adaptam
+            às suas necessidades específicas de negócio ao longo do tempo.
           </p>
         </div>
 
@@ -16,24 +16,26 @@ export function Features() {
           {[
             {
               icon: Brain,
-              title: "Adaptive Learning",
-              description: "Agents learn from every interaction, becoming more efficient at your specific workflows.",
+              title: "Aprendizado Adaptativo",
+              description:
+                "Agentes aprendem com cada interação, tornando-se mais eficientes em seus fluxos de trabalho específicos.",
             },
             {
               icon: GitBranch,
-              title: "Skill Trees",
+              title: "Árvores de Habilidades",
               description:
-                "Unlock specialized abilities as your agent levels up, from advanced coding to persuasive sales.",
+                "Desbloqueie habilidades especializadas conforme seu agente sobe de nível, desde programação avançada até vendas persuasivas.",
             },
             {
               icon: Layers,
-              title: "Multi-Agent Swarms",
-              description: "Coordinate multiple Shimokodans to tackle complex projects in perfect sync.",
+              title: "Enxames Multi-Agente",
+              description: "Coordene múltiplos Shimokodans para lidar com projetos complexos em perfeita sincronia.",
             },
             {
               icon: Lock,
-              title: "Divine Protection",
-              description: "Built-in ethical constraints ensure all actions align with benevolent principles.",
+              title: "Proteção Divina",
+              description:
+                "Restrições éticas integradas garantem que todas as ações estejam alinhadas com princípios benevolentes.",
             },
           ].map((feature, index) => (
             <div

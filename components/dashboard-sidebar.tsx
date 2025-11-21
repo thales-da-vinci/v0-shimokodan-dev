@@ -19,12 +19,12 @@ export function DashboardSidebar() {
   const pathname = usePathname()
 
   const links = [
-    { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
+    { href: "/dashboard", label: "Visão Geral", icon: LayoutDashboard },
     { href: "/dashboard/studio", label: "AI Studio", icon: MessageSquare },
-    { href: "/dashboard/projects", label: "Projects", icon: FolderOpen },
-    { href: "/dashboard/agents", label: "My Agents", icon: Users },
-    { href: "/dashboard/summon", label: "Summon New", icon: PlusCircle },
-    { href: "/dashboard/settings", label: "Settings", icon: Settings },
+    { href: "/dashboard/projects", label: "Projetos", icon: FolderOpen },
+    { href: "/dashboard/agents", label: "Meus Agentes", icon: Users },
+    { href: "/dashboard/summon", label: "Invocar Novo", icon: PlusCircle },
+    { href: "/dashboard/settings", label: "Configurações", icon: Settings },
   ]
 
   return (
@@ -66,7 +66,7 @@ export function DashboardSidebar() {
               )}
             >
               <ShieldAlert className="h-4 w-4" />
-              Admin Panel
+              Painel Admin
             </Button>
           </Link>
         </div>
@@ -75,8 +75,8 @@ export function DashboardSidebar() {
         <div className="flex items-center gap-3 px-2">
           <div className="h-8 w-8 rounded-full bg-primary/20" />
           <div className="text-sm">
-            <p className="font-medium">User</p>
-            <p className="text-xs text-muted-foreground">Free Plan</p>
+            <p className="font-medium">Usuário</p>
+            <p className="text-xs text-muted-foreground">Plano Gratuito</p>
           </div>
         </div>
       </div>
