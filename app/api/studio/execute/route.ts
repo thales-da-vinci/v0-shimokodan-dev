@@ -1,13 +1,13 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { createOpenAI } from "@ai-sdk/openai"
+import { google } from "@ai-sdk/google"
 import { generateText } from "ai"
 import { hnkProtectionFilter } from "@/lib/hnk-protection"
 import { addProjectMessage, addProjectFile, createProject } from "@/lib/project-service"
 import { getAgentById } from "@/lib/agent-data"
 
-// Configurar cliente OpenAI (v0 usa variáveis de ambiente automaticamente)
-const openai = createOpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+// Configurar cliente Google Gemini (v0 usa variáveis de ambiente automaticamente)
+const gemini = google({
+  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
 })
 
 export async function POST(request: NextRequest) {
@@ -49,16 +49,16 @@ export async function POST(request: NextRequest) {
     const phase = currentPhase || "genesis"
     const nextPhase = phase === "genesis" ? "implementation" : phase === "implementation" ? "perfection" : "perfection"
 
-    // 5. 🧠 Geração Real com Vercel AI SDK
+    // 5. 🧠 Geração Real com Google Gemini 1.5 Flash (Gratuito e Rápido)
     const systemPrompt = `Você é o ${agentName}, um Arquiteto de Software Sênior (Metatron).
 Fase Atual do Projeto: ${phase.toUpperCase()}.
 
-Diretrizes GIP:
+Diretrizes GIP (TEHKNÉ):
 - Se GENESIS: Defina arquitetura, stack, estrutura de pastas e planejamento. NÃO gere código ainda.
 - Se IMPLEMENTATION: Gere código real, funcional e modular. Inclua imports, tipos e comentários.
 - Se PERFECTION: Otimize, adicione tipos TypeScript, acessibilidade, testes e documentação.
 
-Responda SEMPRE em JSON estrito com esta estrutura:
+Responda SEMPRE em JSON estrito com esta estrutura (sem markdown, sem \`\`\`):
 {
   "explanation": "Explicação detalhada em português do que foi feito",
   "code": "código completo (ou null se fase Genesis)",
@@ -70,18 +70,28 @@ Responda SEMPRE em JSON estrito com esta estrutura:
 As suggestedActions devem ser frases curtas que o usuário pode clicar para continuar (ex: "Adicionar autenticação", "Criar componente de header", "Otimizar performance").`
 
     const { text } = await generateText({
-      model: openai("gpt-4o"),
+      model: gemini("gemini-1.5-flash"),
       system: systemPrompt,
       prompt: `Usuário: ${prompt}`,
+      temperature: 0.7,
     })
 
-    // Parse da resposta da IA
+    // Parse da resposta da IA (Gemini pode ser verboso)
     let result
     try {
-      const jsonMatch = text.match(/\{[\s\S]*\}/)
-      result = jsonMatch ? JSON.parse(jsonMatch[0]) : { explanation: text, code: null }
+      const cleanText = text
+        .replace(/```json/g, "")
+        .replace(/```/g, "")
+        .trim()
+      const jsonMatch = cleanText.match(/\{[\s\S]*\}/)
+      result = jsonMatch ? JSON.parse(jsonMatch[0]) : { explanation: cleanText, code: null }
     } catch (e) {
-      result = { explanation: text, code: null, suggestedActions: [] }
+      console.error("[v0] Erro no Parse JSON do Gemini:", text)
+      result = {
+        explanation: text,
+        code: null,
+        suggestedActions: ["Tentar novamente com prompt mais claro"],
+      }
     }
 
     const safeResult = {
@@ -121,7 +131,7 @@ As suggestedActions devem ser frases curtas que o usuário pode clicar para cont
 
     return NextResponse.json({
       success: true,
-      projectId: activeProjectId, // CRÍTICO: Frontend precisa disso
+      projectId: activeProjectId,
       agentId: primaryAgentId,
       agentName: agentName,
       phase: phase,
@@ -130,13 +140,13 @@ As suggestedActions devem ser frases curtas que o usuário pode clicar para cont
       code: safeResult.code,
       fileName: safeResult.fileName,
       language: safeResult.language,
-      suggestedActions: safeResult.suggestedActions, // CRÍTICO: Frontend precisa disso
+      suggestedActions: safeResult.suggestedActions,
     })
   } catch (error) {
     console.error("[GIP API] Error:", error)
     return NextResponse.json(
       {
-        error: "Erro interno do servidor. Verifique se OPENAI_API_KEY está configurada.",
+        error: "Erro interno do servidor. Verifique se GOOGLE_GENERATIVE_AI_API_KEY está configurada.",
         details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },

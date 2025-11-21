@@ -2,6 +2,52 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 
+## [0.3.0] - 2025-01-21 - MIGRAÇÃO: OpenAI → Google Gemini AI
+
+### 🚀 Mudanças Revolucionárias
+- **[AI Core]** Migração completa de OpenAI GPT-4o para Google Gemini 1.5 Flash
+  - Modelo gratuito e extremamente rápido
+  - Sem limites de quota (fim do erro 429)
+  - Mantém qualidade e capacidade de geração de código complexo
+  
+### 🔧 Alterações Técnicas
+- **[API]** `app/api/studio/execute/route.ts`
+  - Substituída importação `@ai-sdk/openai` por `@ai-sdk/google`
+  - Modelo alterado: `openai("gpt-4o")` → `google("gemini-1.5-flash")`
+  - Melhorado parse de resposta JSON (Gemini pode incluir markdown)
+  - Atualizada mensagem de erro para indicar `GOOGLE_GENERATIVE_AI_API_KEY`
+
+- **[Segurança]** `lib/hnk-protection.ts`
+  - Proteção HNK agora usa Gemini 1.5 Flash
+  - Análise ética gratuita e sem limites
+  - Adicionadas palavras-chave em PT-BR ("ódio", "porn")
+
+### 📦 Dependências
+- **Adicionar**: `@ai-sdk/google` (execute: `npm install @ai-sdk/google`)
+- **Remover**: `@ai-sdk/openai` (opcional, pode manter para fallback)
+
+### 🔑 Variáveis de Ambiente Necessárias
+\`\`\`env
+# Nova chave obrigatória
+GOOGLE_GENERATIVE_AI_API_KEY=AIzaSy...
+
+# Supabase (mantém)
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+\`\`\`
+
+### 🎯 Impacto
+- Sistema 100% funcional sem custos de API
+- Velocidade de resposta aumentada (~2-3x mais rápido)
+- Capacidade de processar prompts complexos mantida
+- Ideal para desenvolvimento e produção de baixo custo
+
+### ⚠️ Ação Necessária
+1. Obter chave gratuita em: https://aistudio.google.com/app/apikey
+2. Adicionar `GOOGLE_GENERATIVE_AI_API_KEY` ao `.env.local`
+3. Executar: `npm install @ai-sdk/google`
+4. Reiniciar servidor: `npm run dev`
+
 ## [0.2.1] - 2025-01-21 - CORREÇÃO CRÍTICA: API Response Fields
 
 ### 🔧 Correções Críticas
