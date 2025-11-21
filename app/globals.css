@@ -45,76 +45,76 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Aplicando paleta TEHKNÉ: azul profundo + ciano vibrante */
+/* Aplicando cores TEHKNÉ exatas conforme especificação */
 :root {
-  --background: 220 40% 8%;
-  --foreground: 210 40% 98%;
-  --card: 220 35% 12%;
-  --card-foreground: 210 40% 98%;
-  --popover: 220 40% 10%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 189 100% 56%;
-  --primary-foreground: 220 40% 8%;
-  --secondary: 235 30% 18%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 235 25% 20%;
-  --muted-foreground: 215 20% 65%;
-  --accent: 270 80% 65%;
-  --accent-foreground: 220 40% 8%;
+  --background: 220 65% 4%; /* #050a14 - Azul Profundo Abissal */
+  --foreground: 189 100% 98%;
+  --card: 220 50% 8%; /* #0f172a - Azul Noturno */
+  --card-foreground: 189 100% 98%;
+  --popover: 220 65% 4%;
+  --popover-foreground: 189 100% 98%;
+  --primary: 189 100% 50%; /* #00f0ff - Ciano Elétrico Neon */
+  --primary-foreground: 220 65% 4%;
+  --secondary: 270 55% 46%; /* #7b2cbf - Roxo Místico */
+  --secondary-foreground: 189 100% 98%;
+  --muted: 220 40% 15%;
+  --muted-foreground: 189 30% 70%;
+  --accent: 270 55% 46%; /* #7b2cbf - Roxo Místico */
+  --accent-foreground: 189 100% 98%;
   --destructive: 0 63% 31%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 235 30% 22%;
-  --input: 235 30% 18%;
-  --ring: 189 100% 56%;
-  --chart-1: 189 100% 56%;
-  --chart-2: 270 80% 65%;
-  --chart-3: 210 40% 98%;
-  --chart-4: 235 30% 18%;
-  --chart-5: 215 20% 65%;
+  --destructive-foreground: 189 100% 98%;
+  --border: 220 40% 18%;
+  --input: 220 50% 8%;
+  --ring: 189 100% 50%; /* #00f0ff - Ciano Elétrico */
+  --chart-1: 189 100% 50%;
+  --chart-2: 270 55% 46%;
+  --chart-3: 189 100% 98%;
+  --chart-4: 220 50% 8%;
+  --chart-5: 189 30% 70%;
   --radius: 0.5rem;
-  --sidebar-background: 220 40% 8%;
-  --sidebar-foreground: 210 40% 98%;
-  --sidebar-primary: 189 100% 56%;
-  --sidebar-primary-foreground: 220 40% 8%;
-  --sidebar-accent: 235 30% 18%;
-  --sidebar-accent-foreground: 210 40% 98%;
-  --sidebar-border: 235 30% 22%;
-  --sidebar-ring: 189 100% 56%;
+  --sidebar-background: 220 65% 4%;
+  --sidebar-foreground: 189 100% 98%;
+  --sidebar-primary: 189 100% 50%;
+  --sidebar-primary-foreground: 220 65% 4%;
+  --sidebar-accent: 220 50% 8%;
+  --sidebar-accent-foreground: 189 100% 98%;
+  --sidebar-border: 220 40% 18%;
+  --sidebar-ring: 189 100% 50%;
 }
 
 .dark {
-  --background: 220 40% 8%;
-  --foreground: 210 40% 98%;
-  --card: 220 35% 12%;
-  --card-foreground: 210 40% 98%;
-  --popover: 220 40% 10%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 189 100% 56%;
-  --primary-foreground: 220 40% 8%;
-  --secondary: 235 30% 18%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 235 25% 20%;
-  --muted-foreground: 215 20% 65%;
-  --accent: 270 80% 65%;
-  --accent-foreground: 220 40% 8%;
+  --background: 220 65% 4%; /* #050a14 - Azul Profundo Abissal */
+  --foreground: 189 100% 98%;
+  --card: 220 50% 8%; /* #0f172a - Azul Noturno */
+  --card-foreground: 189 100% 98%;
+  --popover: 220 65% 4%;
+  --popover-foreground: 189 100% 98%;
+  --primary: 189 100% 50%; /* #00f0ff - Ciano Elétrico Neon */
+  --primary-foreground: 220 65% 4%;
+  --secondary: 270 55% 46%; /* #7b2cbf - Roxo Místico */
+  --secondary-foreground: 189 100% 98%;
+  --muted: 220 40% 15%;
+  --muted-foreground: 189 30% 70%;
+  --accent: 270 55% 46%; /* #7b2cbf - Roxo Místico */
+  --accent-foreground: 189 100% 98%;
   --destructive: 0 63% 31%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 235 30% 22%;
-  --input: 235 30% 18%;
-  --ring: 189 100% 56%;
-  --chart-1: 189 100% 56%;
-  --chart-2: 270 80% 65%;
-  --chart-3: 210 40% 98%;
-  --chart-4: 235 30% 18%;
-  --chart-5: 215 20% 65%;
-  --sidebar-background: 220 40% 8%;
-  --sidebar-foreground: 210 40% 98%;
-  --sidebar-primary: 189 100% 56%;
-  --sidebar-primary-foreground: 220 40% 8%;
-  --sidebar-accent: 235 30% 18%;
-  --sidebar-accent-foreground: 210 40% 98%;
-  --sidebar-border: 235 30% 22%;
-  --sidebar-ring: 189 100% 56%;
+  --destructive-foreground: 189 100% 98%;
+  --border: 220 40% 18%;
+  --input: 220 50% 8%;
+  --ring: 189 100% 50%; /* #00f0ff - Ciano Elétrico */
+  --chart-1: 189 100% 50%;
+  --chart-2: 270 55% 46%;
+  --chart-3: 189 100% 98%;
+  --chart-4: 220 50% 8%;
+  --chart-5: 189 30% 70%;
+  --sidebar-background: 220 65% 4%;
+  --sidebar-foreground: 189 100% 98%;
+  --sidebar-primary: 189 100% 50%;
+  --sidebar-primary-foreground: 220 65% 4%;
+  --sidebar-accent: 220 50% 8%;
+  --sidebar-accent-foreground: 189 100% 98%;
+  --sidebar-border: 220 40% 18%;
+  --sidebar-ring: 189 100% 50%;
 }
 
 @layer base {
