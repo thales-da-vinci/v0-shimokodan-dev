@@ -183,7 +183,16 @@ export default function StudioPage() {
             <p className="text-muted-foreground mt-1">Build with GIP Method: Genesis • Implementation • Perfection</p>
           </div>
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="h-8 px-3 text-sm capitalize">
+            <Badge
+              variant="outline"
+              className={`h-8 px-3 text-sm capitalize ${
+                currentPhase === "genesis"
+                  ? "border-blue-500 text-blue-500"
+                  : currentPhase === "implementation"
+                    ? "border-purple-500 text-purple-500"
+                    : "border-emerald-500 text-emerald-500"
+              }`}
+            >
               {currentPhase} Phase
             </Badge>
             {projectId && (

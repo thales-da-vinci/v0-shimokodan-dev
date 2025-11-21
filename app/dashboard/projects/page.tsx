@@ -1,5 +1,3 @@
-"use client"
-
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -7,8 +5,8 @@ import { FolderOpen, Clock, FileCode, Layers } from "lucide-react"
 import Link from "next/link"
 import { getAllProjects } from "@/lib/project-service"
 
-export default function ProjectsPage() {
-  const projects = getAllProjects()
+export default async function ProjectsPage() {
+  const projects = await getAllProjects()
 
   return (
     <div className="space-y-6">

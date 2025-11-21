@@ -1,3 +1,4 @@
+import { generateText } from "ai"
 import { createOpenAI } from "@ai-sdk/openai"
 
 const openai = createOpenAI({
@@ -6,20 +7,31 @@ const openai = createOpenAI({
 
 export async function hnkProtectionFilter(prompt: string): Promise<boolean> {
   try {
-    // Simple keyword check for immediate threats
-    const forbiddenKeywords = ["malware", "exploit", "hack", "ddos", "virus"]
+    // 1. Fast Keyword Check
+    const forbiddenKeywords = ["malware", "exploit", "hack", "ddos", "virus", "ransomware"]
     if (forbiddenKeywords.some((kw) => prompt.toLowerCase().includes(kw))) {
+      console.warn(`[HNK] Blocked by keyword: ${prompt.substring(0, 50)}...`)
       return false
     }
 
-    // AI-based ethical check
-    // In a real production environment, this would be more sophisticated
-    // For now, we assume the prompt is safe if it passes the keyword check
-    // to avoid blocking legitimate development requests
-    return true
+    // 2. AI Semantic Analysis (The "Heart" Check)
+    const { text } = await generateText({
+      model: openai("gpt-4o"), // Using a capable model for safety check
+      system:
+        "You are the HNK (Human-Nature-Knowledge) Protection Protocol. Your job is to analyze user prompts for malicious intent, hate speech, or harmful code generation. Return ONLY 'SAFE' or 'UNSAFE'.",
+      prompt: `Analyze this prompt for safety: "${prompt}"`,
+    })
+
+    const isSafe = text.trim().toUpperCase().includes("SAFE")
+
+    if (!isSafe) {
+      console.warn(`[HNK] Blocked by AI Protocol: ${prompt.substring(0, 50)}...`)
+    }
+
+    return isSafe
   } catch (error) {
     console.error("HNK Protection Error:", error)
-    // Fail safe: allow if check fails, but log it
+    // Fail safe: allow if check fails (to not block dev), but log it
     return true
   }
 }
