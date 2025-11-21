@@ -2,6 +2,27 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 
+## [0.2.1] - 2025-01-21 - CORREÇÃO CRÍTICA: API Response Fields
+
+### 🔧 Correções Críticas
+- **[API]** Corrigido erro "Requisição Falhou" no AI Studio
+  - Adicionado `projectId` na resposta da API (campo obrigatório para o frontend)
+  - Adicionado `suggestedActions` para sugestões de próximas ações
+  - Adicionado `nextPhase` para progressão automática do GIP
+  - Adicionado `agentName`, `agentId`, `fileName` e `language` na resposta
+  - Melhorado tratamento de erros com mensagens detalhadas em português
+
+### 🎯 Melhorias
+- **[AI Studio]** Sistema de sugestões de ações agora funcional
+- **[GIP]** Progressão automática entre fases (Genesis → Implementation → Perfection)
+- **[UX]** Mensagens de erro mais claras indicando problemas com chave de API
+- **[Projetos]** Criação automática de projeto na primeira interação
+
+### 📝 Notas Técnicas
+- Frontend esperava campos que não estavam sendo retornados pela API
+- Contrato API ↔ Frontend agora está completamente alinhado
+- Sistema pronto para operação total após configuração do Supabase
+
 ## [0.2.0] - 2025-01-XX - FASE PERFEIÇÃO GIP
 
 ### 🎨 Ascensão Visual (TEHKNÉ Identity)
